@@ -2,68 +2,74 @@ package com.khairul.graph;
 
 import static org.junit.Assert.*;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Graph {
 
-    private Set<Edge> edges;
-    private GraphType type;
+    private Map<Node, Set<Edge>> nodeAdjacency;
+    private Type type;
+    private int size;
 
-    private Graph(Set<Edge> edges) {
-        this.edges = edges;
-    }
-
-    public static Graph of(Set<Edge> edges) {
-        assertNotNull("edges is required !", edges);
-        return new Graph(edges);
-    }
-
-    Predicate<Edge> hasNoEdge() {
-        return edge -> edge.getTo() == null;
-    }
-
-    private Set<Node> findAllLeafNodes(Set<Edge> edges) {
-
-        Set<Node> foundedLeafs = edges.stream()
-        .filter(hasNoEdge())
-        .map(edge -> edge.getFrom())
-        .collect(Collectors.toSet());
-
-        if (foundedLeafs.isEmpty()) {
-            return Collections.emptySet();
-        }
-
-        Predicate<Edge> hasDestinationFoundedLeafNode = edge -> foundedLeafs.contains(edge.getTo());
-
-        Set<Edge> removeLeafNode = edges.stream()
-        .map(edge -> {
-            if (hasDestinationFoundedLeafNode.test(edge)) {
-                return Edge.of(edge.getFrom(), null);
-            }
-            return edge;
-        })
-        .filter(hasNoEdge().negate())
-        .collect(Collectors.toSet());
-
-        foundedLeafs.addAll(findAllLeafNodes(removeLeafNode));
-
-        return foundedLeafs;
+    public Graph(Map<Node, Set<Edge>> nodeAdjacency) {
+        assertNotNull("nodeAdjacency is required !", nodeAdjacency);
+        this.nodeAdjacency = nodeAdjacency;
+        size = nodeAdjacency.size();
     }
 
     public boolean isAcyclic() {
-
         if (type == null) {
-            leafNodes = findAllLeafNodes(edges);
-            if (leafNodes.isEmpty()) {
-                type = GraphType.CYCLIC;
+            Map<Node, Set<Edge>> copyAdj = new HashMap<>(nodeAdjacency);
+            Set<Node> foundedLeafs = findAllLeafNodes(copyAdj);
+            if (foundedLeafs.isEmpty() || foundedLeafs.size() != size) {
+                type = Type.CYCLIC;
             } else {
-                type = GraphType.ACYCLIC;
+                type = Type.ACYCLIC;
             }
         }
+        return type == Type.ACYCLIC;
+    }
 
-        return type == GraphType.ACYCLIC;
+    public Map<Node, Set<Edge>> getNodeAdjacency() {
+        return nodeAdjacency;
+    }
+
+    private Set<Node> findAllLeafNodes(Map<Node, Set<Edge>> nodeEdges) {
+
+        Set<Node> foundedLeaf = getLeaf(nodeEdges);
+
+        if (foundedLeaf.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        Map<Node, Set<Edge>> slicingEdge = removeLeafNode(nodeEdges, foundedLeaf);
+        foundedLeaf.addAll(findAllLeafNodes(slicingEdge));
+        return foundedLeaf;
+    }
+
+    private Predicate<Map.Entry<Node, Set<Edge>>> isALeaf() {
+        return entry -> entry.getValue().isEmpty();
+    }
+
+    private Set<Node> getLeaf(Map<Node, Set<Edge>> nodeEdges) {
+        return nodeEdges.entrySet().stream()
+                .filter(isALeaf())
+                .map(item -> item.getKey())
+                .collect(Collectors.toSet());
+    }
+
+    private Map<Node, Set<Edge>> removeLeafNode(Map<Node, Set<Edge>> nodeEdges, Set<Node> foundedLeaf) {
+
+        Predicate<Edge> isNotALeaf = edge -> !foundedLeaf.contains(edge.getTo());
+
+        return nodeEdges.entrySet().stream()
+        .filter(isALeaf().negate())
+        .map(item -> {
+            Set<Edge> partialEdge = item.getValue().stream().filter(isNotALeaf).collect(Collectors.toSet());
+            item.setValue(partialEdge);
+            return item;
+        })
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

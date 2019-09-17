@@ -1,5 +1,5 @@
 package com.khairul.graph;
 
-public enum GraphType {
+public enum Type {
     ACYCLIC, CYCLIC
 }

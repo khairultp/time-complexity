@@ -40,4 +40,16 @@ public class Node {
     public int hashCode() {
         return Objects.hash(label, weight);
     }
+
+    public Node copy() {
+        return new Node(label, weight);
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "label='" + label + '\'' +
+                ", weight=" + weight +
+                '}';
+    }
 }

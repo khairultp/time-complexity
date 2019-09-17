@@ -2,14 +2,16 @@ package com.khairul.graph;
 
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class GraphTest {
+public class BruteForceTest {
 
     @Test
-    public void isAcyclic_Given_Graph_Have_A_Leaf_Node_AndNo_Cycle_Return_True() {
+    public void optimalWeight_Given_Graph_Have_A_Leaf_Node_AndNo_Cycle_Return_OptimalPath() {
         //Arrange
         Node n1 = Node.of("1", 1);
         Node n2 = Node.of("2", 2);
@@ -30,15 +32,17 @@ public class GraphTest {
         Set<Edge> edges = new HashSet<>(Arrays.asList(e12,e23,e3,e24,e45,e46,e56,e63));
         Graph graph = GraphBuilder.createBy(edges);
 
+        PathService service = new BruteForce(graph);
+
         //Act
-        boolean result = graph.isAcyclic();
+        int result = service.optimalWeight(n1);
 
         //Assert
-        assertTrue(result);
+        assertEquals(21, result);
     }
 
     @Test
-    public void isAcyclic_Given_Graph_Have_A_Leaf_Node_And_Cycle_Return_False() {
+    public void optimalWeight_Given_Graph_Have_A_Leaf_Node_And_Cycle_Return_IllegalStateException() {
         //Arrange
         Node n1 = Node.of("1", 1);
         Node n2 = Node.of("2", 2);
@@ -59,10 +63,12 @@ public class GraphTest {
         Set<Edge> edges = new HashSet<>(Arrays.asList(e12,e23,e3,e24,e45,e56,e63,e64));
         Graph graph = GraphBuilder.createBy(edges);
 
-        //Act
-        boolean result = graph.isAcyclic();
+        PathService service = new BruteForce(graph);
 
         //Assert
-        assertFalse(result);
+        assertThrows("Cyclic graph is not supported !", IllegalStateException.class, () -> {
+            //Act
+            service.optimalWeight(n1);
+        });
     }
 }

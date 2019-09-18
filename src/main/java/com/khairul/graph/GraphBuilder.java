@@ -1,5 +1,8 @@
 package com.khairul.graph;
 
+import com.khairul.graph.model.Edge;
+import com.khairul.graph.model.Node;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

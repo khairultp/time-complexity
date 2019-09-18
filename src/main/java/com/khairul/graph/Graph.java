@@ -1,6 +1,10 @@
 package com.khairul.graph;
 
-import static org.junit.Assert.*;
+import com.khairul.graph.model.Edge;
+import com.khairul.graph.model.Node;
+import com.khairul.graph.model.Type;
+
+import static org.junit.Assert.assertNotNull;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -8,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class Graph {
 
-    private Map<Node, Set<Edge>> nodeAdjacency;
+    private final Map<Node, Set<Edge>> nodeAdjacency;
+    private final int size;
     private Type type;
-    private int size;
 
     public Graph(Map<Node, Set<Edge>> nodeAdjacency) {
         assertNotNull("nodeAdjacency is required !", nodeAdjacency);

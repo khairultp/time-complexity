@@ -1,13 +1,13 @@
-package com.khairul.graph;
+package com.khairul.graph.model;
 
 import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 public class Edge {
 
-    private Node from;
-    private Node to;
+    private final Node from;
+    private final Node to;
 
     private Edge(Node from, Node to) {
         this.from = from;
@@ -39,13 +39,5 @@ public class Edge {
     @Override
     public int hashCode() {
         return Objects.hash(from, to);
-    }
-
-    @Override
-    public String toString() {
-        return "Edge{" +
-                "from=" + from +
-                ", to=" + to +
-                '}';
     }
 }

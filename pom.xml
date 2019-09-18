@@ -26,21 +26,31 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.6.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>java</goal>
+              </goals>
+            </execution>
+          </executions>
           <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
+            <mainClass>com.khairul.App</mainClass>
+            <arguments>
+              <argument>argument1</argument>
+            </arguments>
+            <systemProperties>
+              <systemProperty>
+                <key>myproperty</key>
+                <value>myvalue</value>
+              </systemProperty>
+            </systemProperties>
           </configuration>
         </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
       </plugins>
-    </pluginManagement>
   </build>
 </project>

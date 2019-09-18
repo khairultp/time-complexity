@@ -1,5 +1,6 @@
 package com.khairul.dictionary;
 
+import com.khairul.dictionary.impl.MapString;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -65,6 +66,21 @@ public class MapStringTest {
     public void Load_Given_AvailableString_Return_ArrayOfMap() {
         //Arrange
         String text = dictionaryInText();
+        Map[] expected = dictionary();
+        MapService service = new MapString();
+
+        //Act
+        Map[] result = service.load(text);
+
+        //Assert
+        assertNotNull(result);
+        assertArrayEquals(expected, result);
+    }
+
+    @Test
+    public void Load_Given_AvailableString_With_ExtraEnter_Return_ArrayOfMap() {
+        //Arrange
+        String text = dictionaryInText() + "\n";
         Map[] expected = dictionary();
         MapService service = new MapString();
 

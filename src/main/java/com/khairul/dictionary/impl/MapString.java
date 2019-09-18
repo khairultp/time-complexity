@@ -1,4 +1,6 @@
-package com.khairul.dictionary;
+package com.khairul.dictionary.impl;
+
+import com.khairul.dictionary.MapService;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,6 +24,7 @@ public class MapString implements MapService {
             return null;
 
         return Stream.of(text.split("\n"))
+                .filter(line -> !line.isEmpty())
                 .map(line -> toMap(line))
                 .toArray(Map[]::new);
     }

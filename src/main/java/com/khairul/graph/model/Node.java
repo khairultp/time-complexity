@@ -1,12 +1,12 @@
-package com.khairul.graph;
+package com.khairul.graph.model;
 
 import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 public class Node {
-    private String label;
-    private int weight;
+    private final String label;
+    private final int weight;
 
     private Node(String label, int weight) {
         this.label = label;
@@ -19,12 +19,12 @@ public class Node {
         return new Node(label, weight);
     }
 
-    public String getLabel() {
-        return label;
-    }
-
     public int getWeight() {
         return weight;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     @Override
@@ -43,13 +43,5 @@ public class Node {
 
     public Node copy() {
         return new Node(label, weight);
-    }
-
-    @Override
-    public String toString() {
-        return "Node{" +
-                "label='" + label + '\'' +
-                ", weight=" + weight +
-                '}';
     }
 }

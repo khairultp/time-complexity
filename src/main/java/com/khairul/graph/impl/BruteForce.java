@@ -1,7 +1,14 @@
-package com.khairul.graph;
+package com.khairul.graph.impl;
+
+import com.khairul.graph.Graph;
+import com.khairul.graph.PathService;
+import com.khairul.graph.model.Edge;
+import com.khairul.graph.model.Node;
 
 import java.util.OptionalInt;
 import java.util.Set;
+
+import static org.junit.Assert.assertNotNull;
 
 public class BruteForce implements PathService {
 
@@ -13,6 +20,8 @@ public class BruteForce implements PathService {
 
     @Override
     public int optimalWeight(Node origin) {
+        assertNotNull("origin is required !", origin);
+
         if (!graph.isAcyclic()) {
             throw new IllegalStateException("Cyclic graph is not supported !");
         }

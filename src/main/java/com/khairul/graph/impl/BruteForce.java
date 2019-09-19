@@ -4,6 +4,7 @@ import com.khairul.graph.Graph;
 import com.khairul.graph.PathService;
 import com.khairul.graph.model.Edge;
 import com.khairul.graph.model.Node;
+import com.khairul.graph.model.Type;
 
 import java.util.OptionalInt;
 import java.util.Set;
@@ -19,10 +20,10 @@ public class BruteForce implements PathService {
     }
 
     @Override
-    public int optimalWeight(Node origin) {
+    public int optimalPath(Node origin) {
         assertNotNull("origin is required !", origin);
 
-        if (!graph.isAcyclic()) {
+        if (graph.getType() != Type.ACYCLIC) {
             throw new IllegalStateException("Cyclic graph is not supported !");
         }
         Set<Edge> partialAdj = graph.getNodeAdjacency().get(origin);

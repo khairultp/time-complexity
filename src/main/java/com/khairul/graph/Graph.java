@@ -13,30 +13,31 @@ import java.util.stream.Collectors;
 public class Graph {
 
     private final Map<Node, Set<Edge>> nodeAdjacency;
-    private final int size;
+    private final int nodeNumbers;
     private Type type;
 
     public Graph(Map<Node, Set<Edge>> nodeAdjacency) {
         assertNotNull("nodeAdjacency is required !", nodeAdjacency);
         this.nodeAdjacency = nodeAdjacency;
-        size = nodeAdjacency.size();
+        nodeNumbers = nodeAdjacency.keySet().size();
+        type = isAcyclic() ? Type.ACYCLIC : Type.CYCLIC;
     }
 
-    public boolean isAcyclic() {
-        if (type == null) {
-            Map<Node, Set<Edge>> copyAdj = new HashMap<>(nodeAdjacency);
-            Set<Node> foundedLeafs = findAllLeafNodes(copyAdj);
-            if (foundedLeafs.isEmpty() || foundedLeafs.size() != size) {
-                type = Type.CYCLIC;
-            } else {
-                type = Type.ACYCLIC;
-            }
+    private boolean isAcyclic() {
+        Map<Node, Set<Edge>> copyAdj = new HashMap<>(nodeAdjacency);
+        Set<Node> foundedLeafs = findAllLeafNodes(copyAdj);
+        if (foundedLeafs.isEmpty() || foundedLeafs.size() != nodeNumbers) {
+            return false;
         }
-        return type == Type.ACYCLIC;
+        return true;
     }
 
     public Map<Node, Set<Edge>> getNodeAdjacency() {
         return nodeAdjacency;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     private Set<Node> findAllLeafNodes(Map<Node, Set<Edge>> nodeEdges) {

@@ -2,6 +2,7 @@ package com.khairul.graph;
 
 import com.khairul.graph.model.Edge;
 import com.khairul.graph.model.Node;
+import com.khairul.graph.model.Type;
 import org.junit.Test;
 
 import java.util.*;
@@ -11,7 +12,7 @@ import static org.junit.Assert.*;
 public class GraphTest {
 
     @Test
-    public void isAcyclic_Given_Graph_Have_A_Leaf_Node_AndNo_Cycle_Return_True() {
+    public void GetType_Given_Graph_Have_A_Leaf_Node_AndNo_Cycle_Return_Acyclic() {
         //Arrange
         Node n1 = Node.of("1", 1);
         Node n2 = Node.of("2", 2);
@@ -33,14 +34,14 @@ public class GraphTest {
         Graph graph = GraphBuilder.createBy(edges);
 
         //Act
-        boolean result = graph.isAcyclic();
+        Type result = graph.getType();
 
         //Assert
-        assertTrue(result);
+        assertEquals(Type.ACYCLIC, result);
     }
 
     @Test
-    public void isAcyclic_Given_Graph_Have_A_Leaf_Node_And_Cycle_Return_False() {
+    public void GetType_Given_Graph_Have_A_Leaf_Node_And_Cycle_Return_Cyclic() {
         //Arrange
         Node n1 = Node.of("1", 1);
         Node n2 = Node.of("2", 2);
@@ -62,9 +63,9 @@ public class GraphTest {
         Graph graph = GraphBuilder.createBy(edges);
 
         //Act
-        boolean result = graph.isAcyclic();
+        Type result = graph.getType();
 
         //Assert
-        assertFalse(result);
+        assertEquals(Type.CYCLIC, result);
     }
 }

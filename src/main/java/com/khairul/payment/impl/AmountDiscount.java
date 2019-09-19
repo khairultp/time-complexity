@@ -25,7 +25,7 @@ public class AmountDiscount extends BaseDiscount {
     }
 
     @Override
-    public BigDecimal discounts() {
+    public BigDecimal saveAmount() {
         return amtDisc;
     }
 

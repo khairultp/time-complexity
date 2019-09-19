@@ -14,7 +14,7 @@ public class GroceryDiscount extends BaseDiscount {
     }
 
     @Override
-    public BigDecimal discounts() {
+    public BigDecimal saveAmount() {
         return BigDecimal.ZERO;
     }
 }

@@ -13,7 +13,7 @@ public abstract class BaseDiscount implements DiscountService {
     }
 
     @Override
-    public BigDecimal discounts() {
+    public BigDecimal saveAmount() {
         return amount.divide(BigDecimal.valueOf(100)).multiply(number());
     }
 }

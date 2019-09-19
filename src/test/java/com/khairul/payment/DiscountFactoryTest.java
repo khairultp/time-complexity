@@ -26,7 +26,7 @@ public class DiscountFactoryTest {
 
         //Assert
         assertEquals(30, result.number().intValue());
-        assertEquals(297, result.discounts().intValue());
+        assertEquals(297, result.saveAmount().intValue());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class DiscountFactoryTest {
         DiscountService result = DiscountFactory.of(bill);
 
         //Assert
-        assertEquals(expectedDiscAmount, result.discounts());
+        assertEquals(expectedDiscAmount, result.saveAmount());
         assertEquals(expectedDisc, result.number());
     }
 
@@ -91,8 +91,8 @@ public class DiscountFactoryTest {
         DiscountService result = DiscountFactory.of(bill);
 
         //Assert
-        assertEquals(0, result.discounts().intValue());
-        assertEquals(0, result.number().intValue());
+        assertEquals(BigDecimal.ZERO, result.saveAmount());
+        assertEquals(BigDecimal.ZERO, result.number());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class DiscountFactoryTest {
         DiscountService result = DiscountFactory.of(bill);
 
         //Assert
-        assertEquals(0, result.number().intValue());
-        assertEquals(0, result.discounts().intValue());
+        assertEquals(BigDecimal.ZERO, result.number());
+        assertEquals(BigDecimal.ZERO, result.saveAmount());
     }
 }

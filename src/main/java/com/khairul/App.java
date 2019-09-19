@@ -152,7 +152,7 @@ public class App {
         if (result.number().compareTo(BigDecimal.ZERO) == 0) {
             System.out.println("Discount not available");
         } else {
-            System.out.println("Discount " + result.number() + "%" + " Save $" + result.discounts());
+            System.out.println("Discount " + result.number() + "%" + " Save $" + result.saveAmount());
         }
     }
 

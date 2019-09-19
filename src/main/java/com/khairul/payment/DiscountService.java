@@ -4,5 +4,5 @@ import java.math.BigDecimal;
 
 public interface DiscountService {
     BigDecimal number();
-    BigDecimal discounts();
+    BigDecimal saveAmount();
 }

@@ -20,7 +20,7 @@ public class BruteForce implements PathService {
     }
 
     @Override
-    public int optimalWeight(Node origin) {
+    public int optimalPath(Node origin) {
         assertNotNull("origin is required !", origin);
 
         if (graph.getType() != Type.ACYCLIC) {

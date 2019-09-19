@@ -106,7 +106,7 @@ public class App {
         Graph graph = GraphBuilder.createBy(edges);
         PathService service = new BruteForce(graph);
 
-        int result = service.optimalWeight(origin);
+        int result = service.optimalPath(origin);
 
         System.out.println("With origin vertex " + origin.getLabel() + ", the output is " + result);
     }
@@ -157,7 +157,7 @@ public class App {
     }
 
     private static String input() {
-        String input = "";
+        String input;
         String text = "";
         int enter = 0;
         do{

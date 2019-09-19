@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class BruteForceTest {
 
     @Test
-    public void optimalWeight_Given_Graph_Have_A_Leaf_Node_AndNo_Cycle_Return_OptimalPath() {
+    public void optimalPath_Given_Graph_Have_A_Leaf_Node_AndNo_Cycle_Return_Integer() {
         //Arrange
         Node n1 = Node.of("1", 1);
         Node n2 = Node.of("2", 2);
@@ -38,14 +38,14 @@ public class BruteForceTest {
         PathService service = new BruteForce(graph);
 
         //Act
-        int result = service.optimalWeight(n1);
+        int result = service.optimalPath(n1);
 
         //Assert
         assertEquals(21, result);
     }
 
     @Test
-    public void optimalWeight_Given_Graph_Have_A_Leaf_Node_And_Cycle_Return_IllegalStateException() {
+    public void optimalPath_Given_Graph_Have_A_Leaf_Node_And_Cycle_Return_IllegalStateException() {
         //Arrange
         Node n1 = Node.of("1", 1);
         Node n2 = Node.of("2", 2);
@@ -71,7 +71,7 @@ public class BruteForceTest {
         //Assert
         assertThrows("Cyclic graph is not supported !", IllegalStateException.class, () -> {
             //Act
-            service.optimalWeight(n1);
+            service.optimalPath(n1);
         });
     }
 }

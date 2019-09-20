@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class DiscountFactoryTest {
 
     @Test
-    public void of_Given_BillTransaction_of_Employee_Return_30_Percent() {
+    public void of_Given_BillTransaction_of_Retail_Employee_$990_Return_30_Percent_And_Save_$297() {
         //Arrange
         LocalDate jointDate = LocalDate.now();
         Customer customer = new Customer(CustomerType.EMPLOYEE, jointDate);
@@ -30,7 +30,7 @@ public class DiscountFactoryTest {
     }
 
     @Test
-    public void of_Given_BillTransaction_of_Affiliate_Store_Return_10_Percent() {
+    public void of_Given_BillTransaction_of_Retail_Affiliate_Store_$990_Return_10_Percent_And_Save_$99() {
         //Arrange
         LocalDate jointDate = LocalDate.now();
         Customer customer = new Customer(CustomerType.AFFILIATE_STORE, jointDate);
@@ -42,10 +42,11 @@ public class DiscountFactoryTest {
 
         //Assert
         assertEquals(10, result.number().intValue());
+        assertEquals(99, result.saveAmount().intValue());
     }
 
     @Test
-    public void of_Given_BillTransaction_of_Loyalty_Customer_Return_5_Percent() {
+    public void of_Given_BillTransaction_of_Retail_Loyalty_Customer_$990_Return_5_Percent_And_Save_$49_50cent() {
         //Arrange
         LocalDate jointDate = LocalDate.now().minusYears(2);
         Customer customer = new Customer(CustomerType.NORMAL, jointDate);
@@ -57,30 +58,27 @@ public class DiscountFactoryTest {
 
         //Assert
         assertEquals(5, result.number().intValue());
+        assertEquals(BigDecimal.valueOf(49.5).setScale(2), result.saveAmount());
     }
 
     @Test
-    public void of_Given_BillTransaction_with_Amount_$990_Return_$45() {
+    public void of_Given_BillTransaction_of_Retail_$990_Return_4_point_5_Percent_And_Save_$45() {
         //Arrange
         LocalDate jointDate = LocalDate.now().minusYears(1);
         Customer customer = new Customer(CustomerType.NORMAL, jointDate);
         BigDecimal amount = BigDecimal.valueOf(990);
         BillTransaction bill = BillTransaction.of(customer, SaleType.RETAIL, amount);
 
-        BigDecimal expectedDiscAmount = BigDecimal.valueOf(45);
-        BigDecimal expectedDisc = expectedDiscAmount.divide(amount, BigDecimal.ROUND_HALF_EVEN)
-                .multiply(BigDecimal.valueOf(100));
-
         //Act
         DiscountService result = DiscountFactory.of(bill);
 
         //Assert
-        assertEquals(expectedDiscAmount, result.saveAmount());
-        assertEquals(expectedDisc, result.number());
+        assertEquals(BigDecimal.valueOf(4.5), result.number());
+        assertEquals(45, result.saveAmount().intValue());
     }
 
     @Test
-    public void of_Given_BillTransaction_with_Amount_$99_Return_$0() {
+    public void of_Given_BillTransaction_of_Retail_$99_Return_0_Percent_And_Save_$0() {
         //Arrange
         LocalDate jointDate = LocalDate.now().minusYears(1);
         Customer customer = new Customer(CustomerType.NORMAL, jointDate);
@@ -92,11 +90,11 @@ public class DiscountFactoryTest {
 
         //Assert
         assertEquals(BigDecimal.ZERO, result.saveAmount());
-        assertEquals(BigDecimal.ZERO, result.number());
+        assertEquals(BigDecimal.ZERO.setScale(1), result.number());
     }
 
     @Test
-    public void of_Given_BillTransaction_from_Grocery_Return_0_Percent() {
+    public void of_Given_BillTransaction_of_Grocery_Return_0_Percent_And_Save_$0() {
         //Arrange
         LocalDate jointDate = LocalDate.now().minusYears(1);
         Customer customer = new Customer(CustomerType.AFFILIATE_STORE, jointDate);

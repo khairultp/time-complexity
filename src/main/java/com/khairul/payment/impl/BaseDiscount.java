@@ -14,6 +14,6 @@ public abstract class BaseDiscount implements DiscountService {
 
     @Override
     public BigDecimal saveAmount() {
-        return amount.divide(BigDecimal.valueOf(100)).multiply(number());
+        return amount.multiply(number().divide(BigDecimal.valueOf(100)));
     }
 }

@@ -15,13 +15,11 @@ public class AmountDiscount extends BaseDiscount {
     }
 
     private void init() {
-        if (amount.compareTo(minAmount) >= 0) {
-            amtDisc = amount.divide(minAmount).setScale(0, BigDecimal.ROUND_DOWN).multiply(baseAmtDisc);
-        } else {
+        if (amount.compareTo(minAmount) <= 0) {
             amtDisc = BigDecimal.ZERO;
         }
-
-        number = amtDisc.divide(amount, BigDecimal.ROUND_HALF_EVEN).multiply(BigDecimal.valueOf(100));
+        amtDisc = amount.divide(minAmount).setScale(0, BigDecimal.ROUND_DOWN).multiply(baseAmtDisc);
+        number = amtDisc.multiply(BigDecimal.valueOf(100)).divide(amount, 1, BigDecimal.ROUND_HALF_EVEN);
     }
 
     @Override
